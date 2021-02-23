@@ -3,15 +3,15 @@ from ..layers import *
 
 
 class UNet(tf.keras.models.Model):
-    def __init__(self, depth=5, *args, **kwargs):
+    def __init__(self, filter_sizes=(64, 128, 256, 512), center_filter=1024, output_filter=1, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.filters_sizes = [64, 128, 256, 512]
+        self.filters_sizes = filter_sizes
 
         self.encoder = [UNetDownConvBlock(i) for i in self.filters_sizes]
-        self.center = UNetCenterConvBlock(1024)
+        self.center = UNetCenterConvBlock(center_filter)
         self.decoder = [UNetUpConvBlock(i) for i in reversed(self.filters_sizes)]
-        self.final_layer = tf.keras.layers.Conv2D(1, (1, 1), activation='sigmoid')
+        self.final_layer = tf.keras.layers.Conv2D(output_filter, (1, 1), activation='sigmoid')
 
     def call(self, inputs, training=None, mask=None):
         x = inputs

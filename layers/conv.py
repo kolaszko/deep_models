@@ -2,17 +2,17 @@ import tensorflow as tf
 
 
 class UNetDownConvBlock(tf.keras.models.Model):
-    def __init__(self, filters, kernel_size=3, *args, **kwargs):
+    def __init__(self, filters, kernel_size=3, dropout_rate=0.2, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.conv_1 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_1 = tf.keras.layers.BatchNormalization()
-        self.dropout_1 = tf.keras.layers.Dropout(rate=0.2)
+        self.dropout_1 = tf.keras.layers.Dropout(rate=dropout_rate)
 
         self.conv_2 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_2 = tf.keras.layers.BatchNormalization()
 
-        self.dropout_2 = tf.keras.layers.Dropout(rate=0.2)
+        self.dropout_2 = tf.keras.layers.Dropout(rate=dropout_rate)
         self.max_pool = tf.keras.layers.MaxPool2D((2, 2), strides=2)
 
     def call(self, inputs, training=None, mask=None):
