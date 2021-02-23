@@ -1,15 +1,12 @@
 import tensorflow as tf
-from layers import UNetUpConvBlock, UNetDownConvBlock, UNetCenterConvBlock
+from ..layers import *
 
 
 class UNet(tf.keras.models.Model):
     def __init__(self, depth=5, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # self.encoder = UNetDownConvBlock(32)
-        # self.decoder = UNetUpConvBlock(32)
         self.filters_sizes = [64, 128, 256, 512]
-        A = [i for i in reversed(self.filters_sizes[:-1])]
 
         self.encoder = [UNetDownConvBlock(i) for i in self.filters_sizes]
         self.center = UNetCenterConvBlock(1024)
@@ -31,3 +28,4 @@ class UNet(tf.keras.models.Model):
             x = block(x, skips[i])
 
         return self.final_layer(x)
+

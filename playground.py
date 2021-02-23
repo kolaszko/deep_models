@@ -4,10 +4,9 @@ from models import ERFNet, UNet
 
 
 if __name__ == '__main__':
-
     a = UNet()
 
-    t = tf.random.uniform(shape=(1, 512, 512, 3))
+    t = tf.random.uniform(shape=(4, 192, 256, 3))
 
-    o = a(t)
-    print(o.shape)
+    output = a(t)
+    print(output.shape)
