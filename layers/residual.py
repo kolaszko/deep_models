@@ -25,6 +25,6 @@ class ResLayer(tf.keras.models.Model):
         ])
 
     def call(self, inputs, training=None, mask=None):
-        x = self.block(inputs)
+        x = self.block(inputs, training)
         return x + inputs
 
