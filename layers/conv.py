@@ -7,12 +7,12 @@ class UNetDownConvBlock(tf.keras.models.Model):
 
         self.conv_1 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_1 = tf.keras.layers.BatchNormalization()
-        self.dropout_1 = tf.keras.layers.Dropout(rate=dropout_rate)
+        self.dropout_1 = tf.keras.layers.SpatialDropout2D(rate=dropout_rate)
 
         self.conv_2 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_2 = tf.keras.layers.BatchNormalization()
+        self.dropout_2 = tf.keras.layers.SpatialDropout2D(rate=dropout_rate)
 
-        self.dropout_2 = tf.keras.layers.Dropout(rate=dropout_rate)
         self.max_pool = tf.keras.layers.MaxPool2D((2, 2), strides=2)
 
     def call(self, inputs, training=None, mask=None):
@@ -39,11 +39,11 @@ class UNetUpConvBlock(tf.keras.models.Model):
                                                               padding='same')
         self.conv_1 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_1 = tf.keras.layers.BatchNormalization()
-        self.dropout_1 = tf.keras.layers.Dropout(rate=dropout_rate)
+        self.dropout_1 = tf.keras.layers.SpatialDropout2D(rate=dropout_rate)
 
         self.conv_2 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_2 = tf.keras.layers.BatchNormalization()
-        self.dropout_2 = tf.keras.layers.Dropout(rate=dropout_rate)
+        self.dropout_2 = tf.keras.layers.SpatialDropout2D(rate=dropout_rate)
 
     def call(self, inputs, skip, training=None, mask=None):
         x = self.conv_transpose(inputs)
@@ -64,11 +64,11 @@ class UNetCenterConvBlock(tf.keras.models.Model):
 
         self.conv_1 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_1 = tf.keras.layers.BatchNormalization()
-        self.dropout_1 = tf.keras.layers.Dropout(rate=dropout_rate)
+        self.dropout_1 = tf.keras.layers.SpatialDropout2D(rate=dropout_rate)
 
         self.conv_2 = tf.keras.layers.Conv2D(filters, kernel_size, activation='relu', padding='same')
         self.bn_2 = tf.keras.layers.BatchNormalization()
-        self.dropout_2 = tf.keras.layers.Dropout(rate=dropout_rate)
+        self.dropout_2 = tf.keras.layers.SpatialDropout2D(rate=dropout_rate)
 
     def call(self, inputs, training=None, mask=None):
         x = self.conv_1(inputs)
